@@ -1,9 +1,11 @@
 import { Plus } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
+// tarjeta de producto del menu
 const MenuCard = ({ item }) => {
   const { addItem, canAddMore, getTotalItems, getMaxItems } = useCart();
 
+  // agregar producto al carrito
   const handleAddToCart = () => {
     if (canAddMore()) {
       addItem(item);
@@ -30,15 +32,15 @@ const MenuCard = ({ item }) => {
                 ? 'bg-orange-500 text-white hover:bg-orange-600' 
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
-            title={!canAddMore() ? `Límite alcanzado (${getTotalItems()}/${getMaxItems()})` : ''}
+            title={!canAddMore() ? `Limite alcanzado (${getTotalItems()}/${getMaxItems()})` : ''}
           >
             <Plus size={16} className="inline mr-1" /> 
-            {canAddMore() ? 'Añadir al Carrito' : 'Límite Alcanzado'}
+            {canAddMore() ? 'Agregar' : 'Limite Alcanzado'}
           </button>
         </div>
       </div>
     </div>
-  );}
+  );
 };
 
 export default MenuCard;

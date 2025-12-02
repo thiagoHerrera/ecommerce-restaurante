@@ -2,7 +2,7 @@ import { ShoppingCart, User } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import DinersSelector from './DinersSelector';
 
-// Componente del header principal
+// header de la aplicacion
 const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
   const { getTotalItems } = useCart();
 
@@ -10,14 +10,14 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
-          {/* Logo del restaurante */}
+          {/* logo */}
           <div className="text-2xl font-bold text-orange-600">🍽️ WORCHI - FOOD</div>
           
           <div className="flex items-center gap-4">
-            {/* Selector de comensales */}
+            {/* selector comensales */}
             <DinersSelector />
             
-            {/* Botón de usuario o login */}
+            {/* boton usuario */}
             {user ? (
               <button onClick={onProfileClick} className="p-2 hover:bg-gray-100 rounded-full" title={user.name}>
                 <User size={20} />
@@ -28,7 +28,7 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
               </button>
             )}
             
-            {/* Carrito de compras con contador */}
+            {/* carrito */}
             <button onClick={onCartClick} className="relative p-2 hover:bg-gray-100 rounded-full">
               <ShoppingCart size={24} className="text-orange-600" />
               {getTotalItems() > 0 && (
@@ -41,7 +41,7 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
         </div>
       </div>
     </header>
-  );}
+  );
 };
 
 export default Header;

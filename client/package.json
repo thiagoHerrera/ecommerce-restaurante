@@ -1,8 +1,10 @@
 {
   "name": "worchi-food",
+  "description": "Sistema de pedidos online para restaurante - Proyecto final",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "author": "Estudiante",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

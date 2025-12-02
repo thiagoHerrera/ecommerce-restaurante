@@ -1,0 +1,20 @@
+COSAS POR HACER EN EL SERVIDOR:
+
+1. Agregar más validaciones en las rutas
+2. Mejorar el manejo de errores
+3. Agregar middleware para logs
+4. Crear ruta para obtener estadísticas
+5. Implementar paginación en productos
+6. Agregar filtros por precio
+7. Crear sistema de roles más completo
+
+BUGS CONOCIDOS:
+- A veces falla la conexión a MySQL
+- Los tokens JWT podrían expirar muy rápido
+- Falta validar mejor los datos de entrada
+
+MEJORAS FUTURAS:
+- Agregar cache con Redis
+- Implementar rate limiting
+- Subir imágenes a AWS S3
+- Agregar tests unitarios

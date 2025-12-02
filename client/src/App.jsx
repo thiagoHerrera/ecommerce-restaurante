@@ -24,9 +24,10 @@ function App() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [user, setUser] = useState(null);
   
-  // Cargar productos desde datos estáticos (simula API)
+  // cargar productos del menu (datos de prueba)
   useEffect(() => {
-    const mockProducts = [
+    // productos del restaurante
+    const menuItems = [
       { id: 1, name: 'Empanadas Criollas', description: 'Empanadas de carne cortada a cuchillo', price: 2500, category: 'entradas', image: '/images/empanadas.jpg' },
       { id: 2, name: 'Provoleta', description: 'Queso provolone a la parrilla con oregano', price: 3200, category: 'entradas', image: '/images/provoleta.jpg' },
       { id: 3, name: 'Bife de Chorizo', description: 'Bife de chorizo de 400g con guarnición', price: 8500, category: 'platos-principales', image: '/images/bife.jpg' },
@@ -38,14 +39,15 @@ function App() {
       { id: 9, name: 'Agua Mineral', description: 'Agua mineral sin gas 500ml', price: 800, category: 'bebidas', image: '/images/agua.jpg' },
       { id: 10, name: 'Vino Tinto', description: 'Copa de vino tinto de la casa', price: 2200, category: 'bebidas', image: '/images/vino.jpg' }
     ];
-    setProducts(mockProducts);
+    setProducts(menuItems);
   }, []);
 
-  // Filtrar y ordenar productos
+  // filtrar productos por categoria
   let filteredItems = selectedCategory === 'todos' 
     ? products 
     : products.filter(item => item.category === selectedCategory);
 
+  // filtrar por busqueda
   if (searchTerm) {
     filteredItems = filteredItems.filter(item => 
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -53,7 +55,7 @@ function App() {
     );
   }
   
-  // Ordenar productos
+  // ordenar por precio
   if (sortBy === 'price-asc') {
     filteredItems = [...filteredItems].sort((a, b) => a.price - b.price);
   } else if (sortBy === 'price-desc') {
@@ -76,10 +78,12 @@ function App() {
     setIsProfileOpen(false);
   };
 
+  // manejar proceso de checkout
   const handleCheckout = () => {
     if (user) {
       setIsCheckoutOpen(true);
     } else {
+      // si no esta logueado, mostrar login
       setIsAuthOpen(true);
     }
   };
@@ -144,15 +148,15 @@ function App() {
           </div>
           
           <section id="about" className="mt-16 text-center">
-            <h2 className="text-3xl font-bold mb-6">Sobre Nosotros</h2>
+            <h2 className="text-3xl font-bold mb-6">Acerca de Nosotros</h2>
             <div className="max-w-2xl mx-auto space-y-4 text-gray-600">
               <p>
-                En <strong className="text-orange-600">WORCHI - FOOD</strong> creemos que la comida es más que nutrición: 
-                es una experiencia que conecta personas y crea momentos inolvidables.
+                En <strong className="text-orange-600">WORCHI - FOOD</strong> creemos que la comida es mucho más que solo nutrición: 
+                es una experiencia que conecta a las personas y crea momentos únicos e inolvidables.
               </p>
               <p>
-                Nuestro equipo de chefs apasionados selecciona cuidadosamente cada ingrediente, 
-                combinando técnicas tradicionales con toques modernos para crear platos excepcionales.
+                Nuestro equipo de chefs experimentados selecciona cuidadosamente cada ingrediente, 
+                combinando técnicas culinarias tradicionales con toques modernos para crear platos realmente excepcionales.
               </p>
             </div>
           </section>
