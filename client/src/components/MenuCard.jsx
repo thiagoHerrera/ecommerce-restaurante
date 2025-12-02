@@ -2,6 +2,23 @@ import { Plus, Star, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 
+// mapeo de nombres a imágenes
+const getImageName = (productName) => {
+  const imageMap = {
+    'Empanadas Criollas': 'empanadas-criollas.webp',
+    'Provoleta': 'proveleta.avif',
+    'Bife de Chorizo': 'bife-chorizo.webp', 
+    'Milanesa Napolitana': 'milanesa-napolitana.jpg',
+    'Pasta Bolognesa': 'boloñesa.jpg',
+    'Flan Casero': 'flan-casero.avif',
+    'Tiramisu': 'tiramisu.jpg',
+    'Coca Cola': 'coca-cola.jpg',
+    'Agua Mineral': 'agua-mineral.jpg',
+    'Vino Tinto': 'vino-tinti.webp'
+  };
+  return imageMap[productName] || 'default.jpg';
+};
+
 // tarjeta de producto del menu
 const MenuCard = ({ item }) => {
   const { addItem, canAddMore, getTotalItems, getMaxItems } = useCart();
@@ -47,9 +64,21 @@ const MenuCard = ({ item }) => {
     >
       {/* Logo del producto */}
       <div className="relative overflow-hidden">
-        <div className={`w-full h-56 bg-gradient-to-br from-orange-400 to-red-500 flex flex-col items-center justify-center text-white transition-transform duration-700 ${
+        <img 
+          src={`/images/${getImageName(item.name)}`}
+          alt={item.name}
+          className={`w-full h-56 object-cover transition-transform duration-700 ${
             isHovered ? 'scale-110' : 'scale-100'
-          }`}>
+          }`}
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'flex';
+          }}
+        />
+        <div 
+          className="w-full h-56 bg-gradient-to-br from-orange-400 to-red-500 flex flex-col items-center justify-center text-white transition-transform duration-700 hidden"
+          style={{ display: 'none' }}
+        >
           <div className="text-6xl mb-2">🍽️</div>
           <div className="text-2xl font-black">WORCHI</div>
           <div className="text-sm font-light opacity-80">FOOD</div>
