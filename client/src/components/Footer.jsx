@@ -107,7 +107,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm flex items-center gap-2">
-              &copy; 2024 Worchi Food. Hecho con 
+              &copy; 2025 Worchi Food. Hecho con 
               <Heart size={16} className="text-red-400 fill-current animate-pulse" /> 
               para los amantes de la buena comida.
             </p>
