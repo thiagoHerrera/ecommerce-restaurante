@@ -4,56 +4,36 @@ const db = require('../config/database');
 class Product {
   // obtener todos los productos
   static async getAll() {
-    return new Promise((resolve, reject) => {
-      db.all(`
-        SELECT p.*, c.name as category_name 
-        FROM products p 
-        LEFT JOIN categories c ON p.category_id = c.id 
-        WHERE p.available = 1
-        ORDER BY c.id, p.name
-      `, (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
+    const products = db.products.filter(p => p.available);
+    return products.map(p => {
+      const category = db.categories.find(c => c.id === p.category_id);
+      return {
+        ...p,
+        category_name: category ? category.name : null
+      };
     });
   }
 
   // obtener productos por categoria
   static async getByCategory(categoryId) {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM products WHERE category_id = ? AND available = 1',
-        [categoryId],
-        (err, rows) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(rows);
-          }
-        }
-      );
-    });
+    return db.products.filter(p => p.category_id == categoryId && p.available);
   }
 
   // crear nuevo producto
   static async create(productData) {
     const { name, description, price, category_id, image } = productData;
-    return new Promise((resolve, reject) => {
-      db.run(
-        'INSERT INTO products (name, description, price, category_id, image) VALUES (?, ?, ?, ?, ?)',
-        [name, description, price, category_id, image],
-        function(err) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(this.lastID);
-          }
-        }
-      );
-    });
+    const newProduct = {
+      id: db.products.length + 1,
+      name,
+      description,
+      price,
+      category_id,
+      image,
+      available: true
+    };
+    
+    db.products.push(newProduct);
+    return newProduct.id;
   }
 }
 

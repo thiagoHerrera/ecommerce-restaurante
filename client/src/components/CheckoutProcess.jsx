@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { CreditCard, MapPin, User, Check } from 'lucide-react';
+import axios from 'axios';
 
 const CheckoutProcess = ({ isOpen, onClose, user }) => {
   const { items, getTotalPrice, dinersCount, clearCart } = useCart();
@@ -37,14 +38,30 @@ const CheckoutProcess = ({ isOpen, onClose, user }) => {
   };
 
   const processOrder = () => {
-    // Simular procesamiento de orden
+    // crear pedido simple
+    const newOrder = {
+      id: Date.now(),
+      orderNumber: `WF${Date.now()}`,
+      items: items,
+      totalPrice: total,
+      status: 'pendiente',
+      createdAt: new Date().toISOString(),
+      address: orderData.address,
+      phone: orderData.phone
+    };
+    
+    // guardar en localStorage
+    const orders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+    orders.push(newOrder);
+    localStorage.setItem('userOrders', JSON.stringify(orders));
+    
     setOrderConfirmed(true);
     setTimeout(() => {
       clearCart();
       onClose();
       setStep(1);
       setOrderConfirmed(false);
-    }, 3000);
+    }, 2000);
   };
 
   if (orderConfirmed) {

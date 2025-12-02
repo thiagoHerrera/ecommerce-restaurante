@@ -47,8 +47,17 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
 
   const handleCheckout = () => {
     if (items.length === 0) return;
+    
+    // Simular pedido completado
+    const orderData = {
+      total: total.toFixed(0),
+      items: items
+    };
+    
+    // Aquí se conectaría con el contexto de usuario para agregar el pedido
+    // Por ahora solo cerramos el carrito
     onClose();
-    // Esto será manejado por el componente padre
+    alert('¡Pedido realizado con éxito! Puedes verlo en tu perfil.');
   };
 
   return (
@@ -81,7 +90,10 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
             <div className="space-y-4">
               {items.map(item => (
                 <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <img src={item.image || '/placeholder-food.jpg'} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded flex flex-col items-center justify-center text-white">
+                    <div className="text-lg">🍽️</div>
+                    <div className="text-xs font-bold">WORCHI</div>
+                  </div>
                   <div className="flex-1">
                     <h4 className="font-medium">{item.name}</h4>
                     <p className="text-orange-600 font-semibold">${item.price}</p>
@@ -155,7 +167,7 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
             </div>
             
             <button 
-              onClick={() => { onCheckout(); onClose(); }} 
+              onClick={onCheckout}
               className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-colors"
             >
               💳 {user ? 'Finalizar Compra' : 'Iniciar Sesión para Continuar'}
