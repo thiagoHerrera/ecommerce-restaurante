@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 
-// obtener todos los productos del menu
 router.get('/', async (req, res) => {
   try {
     const products = await Product.getAll();
@@ -13,7 +12,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// obtener productos por categoria
 router.get('/category/:id', async (req, res) => {
   try {
     const categoryId = req.params.id;

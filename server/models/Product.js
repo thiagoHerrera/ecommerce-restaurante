@@ -1,39 +1,32 @@
-const db = require('../config/database');
+const { all, run, get } = require('../config/database');
 
-// modelo para manejar productos
 class Product {
-  // obtener todos los productos
   static async getAll() {
-    const products = db.products.filter(p => p.available);
-    return products.map(p => {
-      const category = db.categories.find(c => c.id === p.category_id);
-      return {
-        ...p,
-        category_name: category ? category.name : null
-      };
-    });
+    const rows = await all(`
+      SELECT p.*, c.name as category_name
+      FROM products p
+      LEFT JOIN categories c ON c.id = p.category_id
+      WHERE p.available = 1
+      ORDER BY p.id ASC
+    `);
+    return rows;
   }
 
-  // obtener productos por categoria
   static async getByCategory(categoryId) {
-    return db.products.filter(p => p.category_id == categoryId && p.available);
+    const rows = await all(
+      `SELECT * FROM products WHERE category_id = ? AND available = 1 ORDER BY id ASC`,
+      [categoryId]
+    );
+    return rows;
   }
 
-  // crear nuevo producto
   static async create(productData) {
     const { name, description, price, category_id, image } = productData;
-    const newProduct = {
-      id: db.products.length + 1,
-      name,
-      description,
-      price,
-      category_id,
-      image,
-      available: true
-    };
-    
-    db.products.push(newProduct);
-    return newProduct.id;
+    const result = await run(
+      `INSERT INTO products (name, description, price, category_id, image, available) VALUES (?, ?, ?, ?, ?, 1)`,
+      [name, description, price, category_id, image]
+    );
+    return result.id;
   }
 }
 

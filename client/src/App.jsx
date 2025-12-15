@@ -3,10 +3,11 @@ import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import MenuCard from './components/MenuCard';
+import MenuCard from './components/Product';
 import ProductNavigation from './components/ProductNavigation';
 import Cart from './components/Cart';
-import Auth from './components/Auth';
+import Auth from './components/Login';
+import { productsAPI } from './utils/api';
 import CheckoutProcess from './components/CheckoutProcess';
 import OrderTracking from './components/OrderTracking';
 import UserProfile from './components/UserProfile';
@@ -25,29 +26,41 @@ function App() {
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [user, setUser] = useState(null);
-  
-  // cargar productos del menu (datos de prueba)
+
+  const toSlug = (name) => {
+    switch ((name || '').toLowerCase()) {
+      case 'entradas': return 'entradas';
+      case 'platos principales': return 'platos-principales';
+      case 'postres': return 'postres';
+      case 'bebidas': return 'bebidas';
+      default: return 'otros';
+    }
+  };
+
   useEffect(() => {
-    // productos del restaurante
-    const menuItems = [
-      { id: 1, name: 'Empanadas Criollas', description: 'Empanadas de carne cortada a cuchillo', price: 2500, category: 'entradas', image: '/images/empanadas.jpg' },
-      { id: 2, name: 'Provoleta', description: 'Queso provolone a la parrilla con oregano', price: 3200, category: 'entradas', image: '/images/provoleta.jpg' },
-      { id: 3, name: 'Bife de Chorizo', description: 'Bife de chorizo de 400g con guarnición', price: 8500, category: 'platos-principales', image: '/images/bife.jpg' },
-      { id: 4, name: 'Milanesa Napolitana', description: 'Milanesa con jamón, queso y salsa', price: 6800, category: 'platos-principales', image: '/images/milanesa.jpg' },
-      { id: 5, name: 'Pasta Bolognesa', description: 'Fideos con salsa bolognesa casera', price: 5200, category: 'platos-principales', image: '/images/pasta.jpg' },
-      { id: 6, name: 'Flan Casero', description: 'Flan casero con dulce de leche', price: 2800, category: 'postres', image: '/images/flan.jpg' },
-      { id: 7, name: 'Tiramisu', description: 'Tiramisu italiano tradicional', price: 3500, category: 'postres', image: '/images/tiramisu.jpg' },
-      { id: 8, name: 'Coca Cola', description: 'Gaseosa Coca Cola 500ml', price: 1200, category: 'bebidas', image: '/images/coca.jpg' },
-      { id: 9, name: 'Agua Mineral', description: 'Agua mineral sin gas 500ml', price: 800, category: 'bebidas', image: '/images/agua.jpg' },
-      { id: 10, name: 'Vino Tinto', description: 'Copa de vino tinto de la casa', price: 2200, category: 'bebidas', image: '/images/vino.jpg' }
-    ];
-    setProducts(menuItems);
+    const loadProducts = async () => {
+      try {
+        const { data } = await productsAPI.getAll();
+        const normalized = (data || []).map(p => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          price: p.price,
+          category_slug: toSlug(p.category_name)
+        }));
+        setProducts(normalized);
+      } catch (e) {
+        console.error('Error cargando productos', e);
+        setProducts([]);
+      }
+    };
+    loadProducts();
   }, []);
 
   // filtrar productos por categoria
   let filteredItems = selectedCategory === 'todos' 
     ? products 
-    : products.filter(item => item.category === selectedCategory);
+    : products.filter(item => item.category_slug === selectedCategory);
 
   // filtrar por busqueda
   if (searchTerm) {

@@ -3,21 +3,21 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// registro de usuarios
 router.post('/register', async (req, res) => {
   try {
+    console.log('Register request body:', req.body);
     const { name, email, password } = req.body;
     
-    // verificar si ya existe el usuario
-    const existingUser = await User.findByEmail(email);
-    if (existingUser) {
-      return res.status(400).json({ error: 'Ya existe un usuario con ese email' });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Todos los campos son requeridos' });
     }
     
-    // crear nuevo usuario
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: 'Ya existe un usuario con ese email' });
+    }
     const userId = await User.create({ name, email, password });
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    
     res.status(201).json({ 
       message: 'Usuario registrado correctamente',
       token,
@@ -25,30 +25,28 @@ router.post('/register', async (req, res) => {
     });
   } catch (error) {
     console.log('Error en registro:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
-// login de usuarios
 router.post('/login', async (req, res) => {
   try {
+    console.log('Login request body:', req.body);
     const { email, password } = req.body;
     
-    // buscar usuario por email
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email y contraseña son requeridos' });
+    }
+    
     const user = await User.findByEmail(email);
     if (!user) {
-      return res.status(401).json({ error: 'Email o contraseña incorrectos' });
+      return res.status(401).json({ message: 'Email o contraseña incorrectos' });
     }
-    
-    // validar contraseña
     const isValidPassword = await User.validatePassword(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ error: 'Email o contraseña incorrectos' });
+      return res.status(401).json({ message: 'Email o contraseña incorrectos' });
     }
-    
-    // generar token
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    
     res.json({
       message: 'Inicio de sesión exitoso',
       token,
@@ -56,7 +54,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.log('Error en login:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
