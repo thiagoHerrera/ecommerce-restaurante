@@ -9,7 +9,7 @@ const UserProfile = ({ isOpen, onClose, user, onLogout }) => {
   const [favorites, setFavorites] = useState([]);
   const { userProfile, updatePhone, addToFavorites, isFavorite } = useUser();
   
-  // Cargar favoritos cuando se abre el modal
+
   useEffect(() => {
     if (isOpen) {
       const favs = JSON.parse(localStorage.getItem('favorites') || '[]');

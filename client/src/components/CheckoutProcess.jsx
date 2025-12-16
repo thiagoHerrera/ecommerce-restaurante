@@ -38,7 +38,7 @@ const CheckoutProcess = ({ isOpen, onClose, user }) => {
   };
 
   const processOrder = () => {
-    // crear pedido simple
+
     const newOrder = {
       id: Date.now(),
       orderNumber: `WF${Date.now()}`,
@@ -50,7 +50,7 @@ const CheckoutProcess = ({ isOpen, onClose, user }) => {
       phone: orderData.phone
     };
     
-    // guardar en localStorage
+
     const orders = JSON.parse(localStorage.getItem('userOrders') || '[]');
     orders.push(newOrder);
     localStorage.setItem('userOrders', JSON.stringify(orders));
@@ -85,7 +85,7 @@ const CheckoutProcess = ({ isOpen, onClose, user }) => {
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-6">Finalizar Compra</h2>
           
-          {/* Pasos */}
+
           <div className="flex mb-8">
             {[1, 2, 3].map(num => (
               <div key={num} className="flex-1 flex items-center">

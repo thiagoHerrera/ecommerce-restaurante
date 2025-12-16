@@ -22,10 +22,10 @@ const Auth = ({ isOpen, onClose, onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Limpiar token anterior
+
     localStorage.removeItem('token');
     
-    // Validación básica
+
     if (!formData.email || !formData.password) {
       alert('Email y contraseña son requeridos');
       return;
@@ -60,7 +60,7 @@ const Auth = ({ isOpen, onClose, onLogin }) => {
       console.error('Response data:', error.response?.data);
       console.error('Status:', error.response?.status);
       
-      // Fallback temporal - usar autenticación local si falla la API
+
       if (isLogin) {
         if (formData.email === 'admin@worchi-food.com' && formData.password === 'admin123') {
           const user = { id: 1, name: 'Administrador', email: 'admin@worchi-food.com', role: 'admin' };
@@ -69,7 +69,7 @@ const Auth = ({ isOpen, onClose, onLogin }) => {
           return;
         }
       } else {
-        // Registro temporal
+
         const user = { id: Date.now(), name: formData.name, email: formData.email, role: 'customer' };
         onLogin(user);
         onClose();

@@ -16,7 +16,7 @@ const Checkout = ({ isOpen, onClose, user }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulación de pedido
+
     const order = {
       id: Date.now(),
       items,

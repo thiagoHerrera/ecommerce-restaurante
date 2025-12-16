@@ -3,7 +3,7 @@ import { useCart } from '../../context/CartContext';
 import DinersSelector from '../DinersSelector';
 import { useState, useEffect } from 'react';
 
-// header de la aplicacion
+
 const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
   const { getTotalItems } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,7 +24,7 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
-          {/* logo mejorado */}
+
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="relative">
               <div className="text-3xl group-hover:scale-110 transition-transform duration-300">🍽️</div>
@@ -39,12 +39,12 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
           </div>
           
           <div className="flex items-center gap-6">
-            {/* selector comensales mejorado */}
+
             <div className="hidden md:block">
               <DinersSelector />
             </div>
             
-            {/* boton usuario mejorado */}
+
             {user ? (
               <button 
                 onClick={onProfileClick} 
@@ -64,7 +64,7 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
               </button>
             )}
             
-            {/* carrito mejorado */}
+
             <button 
               onClick={onCartClick} 
               className="group relative p-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-orange-500/25"
@@ -83,7 +83,7 @@ const Header = ({ onCartClick, onAuthClick, onProfileClick, user }) => {
         </div>
       </div>
       
-      {/* Barra de progreso sutil */}
+
       <div className={`h-1 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-500 ${
         isScrolled ? 'opacity-100' : 'opacity-0'
       }`}></div>

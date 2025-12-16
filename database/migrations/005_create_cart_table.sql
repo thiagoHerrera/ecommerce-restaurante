@@ -1,4 +1,3 @@
--- Migración: Crear tabla de carrito
 CREATE TABLE IF NOT EXISTS cart (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,

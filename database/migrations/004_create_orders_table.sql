@@ -1,4 +1,3 @@
--- Migración: Crear tabla de órdenes
 CREATE TABLE IF NOT EXISTS orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,

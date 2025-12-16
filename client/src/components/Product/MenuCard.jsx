@@ -2,7 +2,7 @@ import { Plus, Star, Heart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useState, useEffect } from 'react';
 
-// mapeo de nombres a imágenes
+
 const getImageName = (productName) => {
   const imageMap = {
     'Empanadas Criollas': 'empanadas-criollas.webp',
@@ -19,13 +19,13 @@ const getImageName = (productName) => {
   return imageMap[productName] || 'default.jpg';
 };
 
-// tarjeta de producto del menu
+
 const MenuCard = ({ item }) => {
   const { addItem, canAddMore, getTotalItems, getMaxItems } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [isFav, setIsFav] = useState(false);
 
-  // Cargar favoritos del localStorage
+
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     setIsFav(favorites.some(fav => fav.id === item.id));
@@ -35,13 +35,11 @@ const MenuCard = ({ item }) => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     
     if (isFav) {
-      // quitar de favoritos
       const newFavorites = favorites.filter(fav => fav.id !== item.id);
       localStorage.setItem('favorites', JSON.stringify(newFavorites));
       setIsFav(false);
       alert('❌ Quitado de favoritos');
     } else {
-      // agregar a favoritos
       const newFavorites = [...favorites, item];
       localStorage.setItem('favorites', JSON.stringify(newFavorites));
       setIsFav(true);
@@ -49,7 +47,7 @@ const MenuCard = ({ item }) => {
     }
   };
 
-  // agregar producto al carrito
+
   const handleAddToCart = () => {
     if (canAddMore()) {
       addItem(item);

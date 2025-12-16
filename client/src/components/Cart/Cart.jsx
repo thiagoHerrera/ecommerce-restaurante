@@ -8,7 +8,7 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
   const [discount, setDiscount] = useState(0);
   const [discountError, setDiscountError] = useState('');
   
-  // Persistencia en localStorage
+
   useEffect(() => {
     if (items.length > 0) {
       localStorage.setItem('cart', JSON.stringify({ items, dinersCount }));
@@ -48,14 +48,13 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
   const handleCheckout = () => {
     if (items.length === 0) return;
     
-    // Simular pedido completado
+
     const orderData = {
       total: total.toFixed(0),
       items: items
     };
     
-    // Aquí se conectaría con el contexto de usuario para agregar el pedido
-    // Por ahora solo cerramos el carrito
+
     onClose();
     alert('¡Pedido realizado con éxito! Puedes verlo en tu perfil.');
   };
@@ -71,7 +70,7 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          {/* Indicador de límite */}
+
           <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
             <div className="flex items-center gap-2 text-orange-700">
               <AlertTriangle size={16} />
@@ -128,7 +127,7 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
 
         {items.length > 0 && (
           <div className="border-t p-4 space-y-4">
-            {/* Código de descuento */}
+
             <div>
               <div className="flex gap-2 mb-2">
                 <input
@@ -148,7 +147,7 @@ const Cart = ({ isOpen, onClose, onCheckout, user }) => {
               {discountError && <p className="text-red-500 text-xs">{discountError}</p>}
             </div>
             
-            {/* Resumen de totales */}
+
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal:</span>

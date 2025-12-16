@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
     favorites: []
   });
 
-  // Cargar datos del localStorage
+
   useEffect(() => {
     const savedProfile = localStorage.getItem('userProfile');
     if (savedProfile) {
@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  // Guardar en localStorage cuando cambie
+
   useEffect(() => {
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
   }, [userProfile]);

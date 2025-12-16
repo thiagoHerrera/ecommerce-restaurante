@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -9,9 +9,9 @@ const api = axios.create({
   },
 });
 
-// Interceptor para agregar token de autenticación (excepto en auth)
+
 api.interceptors.request.use((config) => {
-  // No agregar token a rutas de autenticación
+
   if (!config.url.includes('/auth/')) {
     const token = localStorage.getItem('token');
     if (token) {

@@ -71,7 +71,8 @@ const bootstrap = async () => {
 
   const admin = await get(`SELECT id FROM users WHERE email = ?`, ['admin@worchi-food.com']);
   if (!admin) {
-    const defaultHash = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+    const bcrypt = require('bcryptjs');
+    const defaultHash = await bcrypt.hash('admin123', 10);
     await run(`INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`, [
       'Administrador',
       'admin@worchi-food.com',

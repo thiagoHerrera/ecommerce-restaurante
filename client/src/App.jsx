@@ -57,12 +57,12 @@ function App() {
     loadProducts();
   }, []);
 
-  // filtrar productos por categoria
+
   let filteredItems = selectedCategory === 'todos' 
     ? products 
     : products.filter(item => item.category_slug === selectedCategory);
 
-  // filtrar por busqueda
+
   if (searchTerm) {
     filteredItems = filteredItems.filter(item => 
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,7 +70,7 @@ function App() {
     );
   }
   
-  // ordenar por precio
+
   if (sortBy === 'price-asc') {
     filteredItems = [...filteredItems].sort((a, b) => a.price - b.price);
   } else if (sortBy === 'price-desc') {
@@ -93,13 +93,12 @@ function App() {
     setIsProfileOpen(false);
   };
 
-  // manejar proceso de checkout
+
   const handleCheckout = () => {
-    setIsCartOpen(false); // cerrar carrito
+    setIsCartOpen(false);
     if (user) {
       setIsCheckoutOpen(true);
     } else {
-      // si no esta logueado, mostrar login
       setIsAuthOpen(true);
     }
   };
@@ -125,7 +124,7 @@ function App() {
         <Hero onTrackingClick={() => setIsTrackingOpen(true)} />
         
         <section className="py-20 bg-white relative overflow-hidden">
-          {/* Elementos decorativos */}
+
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-10 left-10 text-6xl animate-pulse">🎆</div>
             <div className="absolute bottom-10 right-10 text-6xl animate-pulse">✨</div>

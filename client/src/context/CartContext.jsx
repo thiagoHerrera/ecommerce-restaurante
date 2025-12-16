@@ -1,25 +1,24 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-// contexto para manejar el carrito
+
 const CartContext = createContext();
 
-// reducer para las acciones del carrito
+
 const cartReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_ITEM':
-      // calcular total de productos
+
       const totalItems = state.items.reduce((total, item) => total + item.quantity, 0);
-      const maxItems = state.dinersCount * 4; // maximo 4 por comensal
+      const maxItems = state.dinersCount * 4;
       
-      // verificar limite
+
       if (totalItems >= maxItems) {
-        return state; // no agregar mas si ya llego al limite
+        return state;
       }
       
-      // buscar si el producto ya esta en el carrito
+
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
-        // si ya existe, aumentar cantidad
         return {
           ...state,
           items: state.items.map(item =>
@@ -54,7 +53,7 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         dinersCount: action.payload,
-        items: [] // limpiar carrito cuando cambian los comensales
+        items: []
       };
     
     case 'CLEAR_CART':
@@ -65,9 +64,9 @@ const cartReducer = (state, action) => {
   }
 };
 
-// proveedor del contexto del carrito
+
 export const CartProvider = ({ children }) => {
-  // cargar datos guardados del navegador
+
   const loadInitialState = () => {
     try {
       const savedCart = localStorage.getItem('cart');
@@ -92,7 +91,7 @@ export const CartProvider = ({ children }) => {
   };
   const setDiners = (count) => dispatch({ type: 'SET_DINERS', payload: count });
   
-  // guardar en el navegador cuando cambie algo
+
   React.useEffect(() => {
     if (state.items.length > 0 || state.dinersCount > 1) {
       localStorage.setItem('cart', JSON.stringify(state));
@@ -123,7 +122,7 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// hook para usar el carrito
+
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
